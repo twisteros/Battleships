@@ -9,6 +9,7 @@ namespace Battleships
 
         public GameManager()
         {
+
             Battlefield = new Battlefield();
         }
 
