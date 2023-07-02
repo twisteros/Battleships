@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -98,7 +98,9 @@ namespace Battleships
                     {
                         //text = "O";
                         if (cell.ShipSquare.IsHit)
-                            text = "X";
+                            text = "H";
+                        if (cell.Ship.Sunk)
+                            text = "S";
                     }
 
                     DrawBattlefieldCell(text, cellSize, cellPos);
