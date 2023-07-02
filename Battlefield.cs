@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Battleships
 {
@@ -64,7 +65,10 @@ namespace Battleships
                 if (BattlefieldCells[boardPt.X, boardPt.Y].ShipSquare != null)
                     return false;
                 if (!test)
+                {
                     BattlefieldCells[boardPt.X, boardPt.Y].ShipSquare = ship.Squares[i];
+                    BattlefieldCells[boardPt.X, boardPt.Y].Ship = ship;
+                }
             }
             return true;
         }
@@ -88,7 +92,11 @@ namespace Battleships
                     {
                         BattlefieldCells[r, c].Revealed = true;
                         if (BattlefieldCells[r, c].ShipSquare != null)
+                        {
                             BattlefieldCells[r, c].ShipSquare.IsHit = true;
+                            if (BattlefieldCells[r, c].Ship.Squares.All(s => s.IsHit))
+                                BattlefieldCells[r, c].Ship.Sunk = true;
+                        }
                         break;
                     }
         }
