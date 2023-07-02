@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Battleships
 {
     internal class GameManager
     {
-        public Battlefield Battlefield { get; private set; }
+        private Battlefield Battlefield { get; set; }
+
+        public BattlefieldCell[,] BattlefieldCells => Battlefield.BattlefieldCells;
+        public Size BattlefieldSize => Battlefield.Size;
         public int Attempts {get; private set;}
 
         public GameManager()
         {
-
             Battlefield = new Battlefield();
         }
 

@@ -17,7 +17,7 @@ namespace Battleships
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             GameManager.Start();
-            DrawBattlefield(GameManager.Battlefield);
+            DrawBattlefield();
             txtAttempts.Text = GameManager.Attempts.ToString();
 
             btnFire.Enabled = true;
@@ -40,7 +40,7 @@ namespace Battleships
         private void Fire()
         {
             GameManager.Fire(txtCoordinates.Text);
-            DrawBattlefield(GameManager.Battlefield);
+            DrawBattlefield();
             txtAttempts.Text = GameManager.Attempts.ToString();
 
             if (GameManager.AreAllSquaresHit())
@@ -56,13 +56,13 @@ namespace Battleships
             txtCoordinates.Focus();
         }
 
-        private void DrawBattlefield(Battlefield battlefield)
+        private void DrawBattlefield()
         {
             var cellSize = new Size(25, 25);
             var cellPos = new Point(0, 0);
 
             panel1.Controls.Clear();
-            for (int i = 0; i < battlefield.Size.Width; i++)
+            for (int i = 0; i < GameManager.BattlefieldSize.Width; i++)
             {
                 //horizontal positions headers
                 if (i == 0)
@@ -70,9 +70,9 @@ namespace Battleships
                     DrawBattlefieldCell("", cellSize, cellPos);
                     cellPos.X += cellSize.Width;
 
-                    for (int d = 0; d < battlefield.Size.Width; d++)
+                    for (int d = 0; d < GameManager.BattlefieldSize.Width; d++)
                     {
-                        DrawBattlefieldCell(battlefield[0, d].HCoordinate, cellSize, cellPos);
+                        DrawBattlefieldCell(GameManager.BattlefieldCells[0, d].HCoordinate, cellSize, cellPos);
 
                         cellPos.X += cellSize.Width;
                     }
@@ -82,13 +82,13 @@ namespace Battleships
                 }
 
                 //vertical positions headers
-                DrawBattlefieldCell(battlefield[i, 0].VCoordinate, cellSize, cellPos);
+                DrawBattlefieldCell(GameManager.BattlefieldCells[i, 0].VCoordinate, cellSize, cellPos);
                 cellPos.X += cellSize.Width;
 
                 //battlefield grid
-                for (int j = 0; j < battlefield.Size.Height; j++)
+                for (int j = 0; j < GameManager.BattlefieldSize.Height; j++)
                 {
-                    var cell = battlefield[i, j];
+                    var cell = GameManager.BattlefieldCells[i, j];
 
                     var text = "";
                     if (cell.Revealed)

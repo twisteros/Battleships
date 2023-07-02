@@ -8,8 +8,7 @@ namespace Battleships
     {
         public Size Size => new Size(10, 10);
 
-        private BattlefieldCell[,] _battlefieldCells;
-        public BattlefieldCell this[int row, int col] => _battlefieldCells[row, col];
+        public BattlefieldCell[,] BattlefieldCells { get; private set; }
 
         public Battlefield()
         {
@@ -20,12 +19,12 @@ namespace Battleships
         {
             int asciiLettersStart = 65;
 
-            _battlefieldCells = new BattlefieldCell[Size.Width, Size.Height];
+            BattlefieldCells = new BattlefieldCell[Size.Width, Size.Height];
 
             for (int r = 0; r < Size.Height; r++)
                 for (int c = 0; c < Size.Width; c++)
                 {
-                    _battlefieldCells[r, c] = new BattlefieldCell
+                    BattlefieldCells[r, c] = new BattlefieldCell
                     {
                         VCoordinate = $"{Convert.ToChar(asciiLettersStart + r)}",
                         HCoordinate = $"{c + 1}",
@@ -62,10 +61,10 @@ namespace Battleships
                 if (boardPt.X < 0 || boardPt.Y < 0 || boardPt.X >= Size.Width || boardPt.Y >= Size.Height)
                     return false;
                 //is there already another ship
-                if (_battlefieldCells[boardPt.X, boardPt.Y].ShipSquare != null)
+                if (BattlefieldCells[boardPt.X, boardPt.Y].ShipSquare != null)
                     return false;
                 if (!test)
-                    _battlefieldCells[boardPt.X, boardPt.Y].ShipSquare = ship.Squares[i];
+                    BattlefieldCells[boardPt.X, boardPt.Y].ShipSquare = ship.Squares[i];
             }
             return true;
         }
@@ -75,8 +74,8 @@ namespace Battleships
             for (int r = 0; r < Size.Height; r++)
                 for (int c = 0; c < Size.Width; c++)
                 {
-                    _battlefieldCells[r, c].Revealed = false;
-                    _battlefieldCells[r, c].ShipSquare = null;
+                    BattlefieldCells[r, c].Revealed = false;
+                    BattlefieldCells[r, c].ShipSquare = null;
                 }
         }
 
@@ -84,12 +83,12 @@ namespace Battleships
         {
             for (int r = 0; r < Size.Height; r++)
                 for (int c = 0; c < Size.Width; c++)
-                    if (!_battlefieldCells[r, c].Revealed && string.Equals(coordinates,
-                        $"{_battlefieldCells[r, c].VCoordinate}{_battlefieldCells[r, c].HCoordinate}", StringComparison.OrdinalIgnoreCase))
+                    if (!BattlefieldCells[r, c].Revealed && string.Equals(coordinates,
+                        $"{BattlefieldCells[r, c].VCoordinate}{BattlefieldCells[r, c].HCoordinate}", StringComparison.OrdinalIgnoreCase))
                     {
-                        _battlefieldCells[r, c].Revealed = true;
-                        if (_battlefieldCells[r, c].ShipSquare != null)
-                            _battlefieldCells[r, c].ShipSquare.IsHit = true;
+                        BattlefieldCells[r, c].Revealed = true;
+                        if (BattlefieldCells[r, c].ShipSquare != null)
+                            BattlefieldCells[r, c].ShipSquare.IsHit = true;
                         break;
                     }
         }
@@ -99,7 +98,7 @@ namespace Battleships
             var count = 0;
             for (int r = 0; r < Size.Height; r++)
                 for (int c = 0; c < Size.Width; c++)
-                    if (_battlefieldCells[r, c].ShipSquare != null && !_battlefieldCells[r, c].ShipSquare.IsHit)
+                    if (BattlefieldCells[r, c].ShipSquare != null && !BattlefieldCells[r, c].ShipSquare.IsHit)
                         count++;
             return count;
 
