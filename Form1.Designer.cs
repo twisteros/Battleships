@@ -1,4 +1,4 @@
-﻿namespace Battleships
+namespace Battleships
 {
     partial class Form1
     {
